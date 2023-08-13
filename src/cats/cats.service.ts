@@ -1,36 +1,26 @@
 import * as bcrypt from 'bcrypt';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
-import { CreateCatDto } from './dto/create-cat.dto';
 import { CatRequestDto } from './dto/cat.request.dto';
+import { CatsRepository } from './cats.repository';
 
 @Injectable()
 export class CatsService {
-  constructor(private prisma: PrismaService) {}
-
-  async create(createCatDto: CreateCatDto) {
-    return this.prisma.cat.create({
-      data: createCatDto,
-    });
-  }
+  constructor(private readonly catsRepository: CatsRepository) {}
 
   async signUp(body: CatRequestDto) {
-    const { email, password, name } = body;
-
-    const isUsedEmail = await this.prisma.cat2.findFirst({
-      where: {
-        email,
-      },
-    });
-
-    if (isUsedEmail) {
-      throw new UnauthorizedException('해당하는양 고양이는 이미 존재합니다.');
-    }
+    const { name, email, password } = body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    const isCatExist = await this.catsRepository.existsByEmail(email);
 
-    const cat = await this.prisma.cat2.create({
-      data: { name, email, password: hashedPassword },
+    if (isCatExist) {
+      throw new UnauthorizedException('해당하는 고양이는 이미 존재합니다.');
+    }
+
+    const cat = await this.catsRepository.create({
+      email,
+      name,
+      password: hashedPassword,
     });
 
     return cat;

@@ -17,11 +17,6 @@ import { ApiResponse } from '@nestjs/swagger';
 export class CatsController {
   constructor(private catsService: CatsService) {}
 
-  @Post()
-  createCat(@Body() createCatDto: CreateCatDto) {
-    return this.catsService.create(createCatDto);
-  }
-
   @ApiResponse({
     status: 500,
     description: 'Server Error',
