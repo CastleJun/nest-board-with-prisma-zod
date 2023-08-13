@@ -13,10 +13,13 @@ async function bootstrap() {
     .build();
 
   patchNestJsSwagger();
-
   const document: OpenAPIObject = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
 
+  app.enableCors({
+    origin: true,
+    credentials: true,
+  });
   await app.listen(3000);
 }
 bootstrap();
