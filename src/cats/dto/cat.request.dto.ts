@@ -1,4 +1,4 @@
-import { createZodDto } from 'nestjs-zod';
+import { createZodDto, zodToOpenAPI } from 'nestjs-zod';
 import { z } from 'nestjs-zod/z';
 
 const CatRequestSchema = z.object({
@@ -9,5 +9,7 @@ const CatRequestSchema = z.object({
     .min(4, { message: 'password should not be less then 4' }),
   name: z.string().min(4, { message: 'name should not be less then 4' }),
 });
+
+zodToOpenAPI(CatRequestSchema);
 
 export class CatRequestDto extends createZodDto(CatRequestSchema) {}
