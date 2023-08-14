@@ -6,6 +6,26 @@ import { CatRequestDto } from './dto/cat.request.dto';
 export class CatsRepository {
   constructor(private prisma: PrismaService) {}
 
+  async findCatById(catId: string) {
+    const cat = await this.prisma.cat2.findUnique({
+      where: {
+        id: catId,
+      },
+    });
+
+    return cat;
+  }
+
+  async findCatByEmail(email: string) {
+    const cat = await this.prisma.cat2.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    return cat;
+  }
+
   async existsByEmail(email: string): Promise<boolean> {
     try {
       const isUsedEmail = await this.prisma.cat2.findFirst({

@@ -8,9 +8,10 @@ import * as process from 'process';
 import { APP_PIPE } from '@nestjs/core';
 import { ZodValidationPipe } from 'nestjs-zod';
 import { ExcludePasswordMiddleware } from './prisma/prisma.middleware';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [CatsModule, PrismaModule],
+  imports: [CatsModule, PrismaModule, AuthModule],
   controllers: [AppController],
   providers: [
     AppService,
