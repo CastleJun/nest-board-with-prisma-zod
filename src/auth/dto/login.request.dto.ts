@@ -1,7 +1,13 @@
-import { PickType } from '@nestjs/swagger';
-import { CatRequestDto } from '../../cats/dto/cat.request.dto';
+import { createZodDto, zodToOpenAPI } from 'nestjs-zod';
+import { z } from 'nestjs-zod/z';
 
-export class LoginRequestDto extends PickType(CatRequestDto, [
-  'email',
-  'password',
-] as const) {}
+export const LoginRequestSchema = z.object({
+  email: z.string().email(),
+  password: z
+    .string()
+    .min(4, { message: 'password should not be less then 4' }),
+});
+
+zodToOpenAPI(LoginRequestSchema);
+
+export class LoginRequestDto extends createZodDto(LoginRequestSchema) {}
