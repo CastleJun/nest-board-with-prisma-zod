@@ -29,18 +29,11 @@ datasource db {
 }
 
 model Cat {
-  id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  email    String  @unique
-  name     String?
-  password String
-  imgUrl   String
-}
-
-model Cat2 {
   id       String @id @default(auto()) @map("_id") @db.ObjectId
   email    String @unique
   password String
   name     String
+  imgUrl   String @default("https://raw.githubusercontent.com/amamov/teaching-nestjs-a-to-z/main/images/1.jpeg")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

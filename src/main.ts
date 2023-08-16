@@ -4,9 +4,11 @@ import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 import { patchNestJsSwagger } from 'nestjs-zod';
 import * as expressBasicAuth from 'express-basic-auth';
 import { config } from './config';
+import * as path from 'path';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.use(
     ['/docs', '/docs-json'],
@@ -17,6 +19,10 @@ async function bootstrap() {
       },
     }),
   );
+
+  app.useStaticAssets(path.join(__dirname, './common', 'uploads'), {
+    prefix: '/images',
+  });
 
   const openAPIConfig = new DocumentBuilder()
     .setTitle('C.I.C')

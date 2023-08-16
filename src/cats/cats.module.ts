@@ -4,9 +4,13 @@ import { CatsService } from './cats.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { CatsRepository } from './cats.repository';
 import { AuthModule } from '../auth/auth.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
-  imports: [forwardRef(() => AuthModule)],
+  imports: [
+    forwardRef(() => AuthModule),
+    MulterModule.register({ dest: './upload' }),
+  ],
   controllers: [CatsController],
   providers: [CatsService, CatsRepository, PrismaService],
   exports: [CatsService, CatsRepository],

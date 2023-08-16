@@ -6,6 +6,19 @@ import { CatRequestDto } from './dto/cat.request.dto';
 export class CatsRepository {
   constructor(private prisma: PrismaService) {}
 
+  async findByIdAndUpdateImage(catId: string, fileName: string) {
+    const cat = await this.prisma.cat2.update({
+      where: {
+        id: catId,
+      },
+      data: {
+        imgUrl: `http://localhost:3000/images/${fileName}`,
+      },
+    });
+
+    return cat;
+  }
+
   async findCatById(catId: string) {
     const cat = await this.prisma.cat2.findUnique({
       where: {
