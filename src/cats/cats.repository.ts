@@ -6,8 +6,14 @@ import { CatRequestDto } from './dto/cat.request.dto';
 export class CatsRepository {
   constructor(private prisma: PrismaService) {}
 
+  async findAll() {
+    const cat = await this.prisma.cat.findMany();
+
+    return cat;
+  }
+
   async findByIdAndUpdateImage(catId: string, fileName: string) {
-    const cat = await this.prisma.cat2.update({
+    const cat = await this.prisma.cat.update({
       where: {
         id: catId,
       },
@@ -20,7 +26,7 @@ export class CatsRepository {
   }
 
   async findCatById(catId: string) {
-    const cat = await this.prisma.cat2.findUnique({
+    const cat = await this.prisma.cat.findUnique({
       where: {
         id: catId,
       },
@@ -30,7 +36,7 @@ export class CatsRepository {
   }
 
   async findCatByEmail(email: string) {
-    const cat = await this.prisma.cat2.findUnique({
+    const cat = await this.prisma.cat.findUnique({
       where: {
         email,
       },
@@ -41,7 +47,7 @@ export class CatsRepository {
 
   async existsByEmail(email: string): Promise<boolean> {
     try {
-      const isUsedEmail = await this.prisma.cat2.findFirst({
+      const isUsedEmail = await this.prisma.cat.findFirst({
         where: {
           email,
         },
@@ -56,7 +62,7 @@ export class CatsRepository {
   async create(cat: CatRequestDto) {
     const { email, password, name } = cat;
 
-    return this.prisma.cat2.create({
+    return this.prisma.cat.create({
       data: { email, password, name },
     });
   }

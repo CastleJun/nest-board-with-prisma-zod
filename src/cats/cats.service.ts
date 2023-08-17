@@ -8,6 +8,11 @@ import { Cat } from './dto/cat';
 export class CatsService {
   constructor(private readonly catsRepository: CatsRepository) {}
 
+  async getAllCat() {
+    const allCat = await this.catsRepository.findAll();
+
+    return allCat;
+  }
   async signUp(body: CatRequestDto) {
     const { name, email, password } = body;
 

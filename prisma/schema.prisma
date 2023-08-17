@@ -35,6 +35,6 @@ model Cat {
   name     String
   imgUrl   String @default("https://raw.githubusercontent.com/amamov/teaching-nestjs-a-to-z/main/images/1.jpeg")
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("createdAt")
+  updatedAt DateTime @updatedAt @map("updatedAt")
 }

@@ -9,7 +9,7 @@ const CatRequestSchema = z
       .string()
       .min(4, { message: 'password should not be less then 4' }),
     name: z.string().min(4, { message: 'name should not be less then 4' }),
-    imageUrl: z.string(),
+    imageUrl: z.string().optional(),
   })
   .describe('description for cat request schema');
 
